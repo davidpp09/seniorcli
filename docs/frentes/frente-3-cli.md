@@ -1,6 +1,6 @@
 # Frente 3 - CLI, Producto & Persistencia
 
-**2 personas + 1 responsable tecnico.**
+**2 personas; una de ellas es la responsable tecnica del frente.**
 **Entrega principal:** experiencia de usuario + sesiones recuperables.
 
 Convierten los motores internos en algo claro, recuperable y usable. Aunque los
@@ -18,7 +18,7 @@ src/
     storage.rs    .senior/, escrituras atomicas         [funcionando]
     session.rs    turnos en JSONL                       [funcionando]
     ui.rs         presentacion en terminal              [funcionando]
-    repl.rs       modo interactivo                      [minimo]
+    repl.rs       entrada de la sesion interactiva      [minimo: sin historial]
 ```
 
 Son el unico frente que imprime en pantalla y el unico que escribe en disco.
@@ -28,11 +28,16 @@ Son el unico frente que imprime en pantalla y el unico que escribe en disco.
 ```bash
 cargo test app::
 cargo run -- init
+cargo run              # sesion interactiva
 cargo run -- debug
 cargo run -- progress
 ```
 
 - Los cuatro comandos parsean y corren.
+- `senior` a secas abre una sesion interactiva multi-turno (`cmd_sesion` y
+  `bucle` en `mod.rs`): analiza el proyecto una vez al entrar, la respuesta del
+  alumno a la pregunta del tutor alimenta `record_evidence`, y tiene los
+  comandos `/ayuda`, `/contexto`, `/progreso`, `/analizar` y `/salir`.
 - `.senior/` con `config.toml`, `profile.json`, `profile.json.bak` y
   `sessions/*.jsonl`.
 - Escrituras atomicas (temporal + rename), con el caso de Windows resuelto.
@@ -58,17 +63,18 @@ herramienta seria: no hay historial ni edicion de linea.
 **Hecho cuando:** flechas arriba/abajo recorren el historial y `ScriptedPrompt`
 sigue funcionando para los tests.
 
-### 2. Flujo interactivo multi-turno
+### 2. Afinar la sesion interactiva
 
-`cmd_turno` resuelve **un** turno y termina. Falta el ciclo: mostrar decision,
-leer respuesta, volver a decidir con el contexto actualizado, hasta que el
-alumno salga.
+El ciclo multi-turno ya existe (`bucle` en `mod.rs`). Lo que falta es pulirlo:
 
-Cuidado con dos cosas:
+- Hoy el contexto solo se vuelve a recolectar con `/analizar`. Estaria bien
+  detectar que el alumno cambio archivos (por ejemplo, con `git status`) y
+  sugerirle analizar de nuevo, **sin** recolectar en cada turno (es caro).
+- `senior learn` y `senior debug` siguen resolviendo un solo turno. Decidir en
+  equipo si deben entrar a la sesion interactiva despues de la primera
+  respuesta.
 
-- El contexto no se recolecta de nuevo en cada turno si nada cambio (es caro).
-- La respuesta del alumno tiene que alimentar `record_evidence` de verdad, no
-  solo guardarse.
+**Hecho cuando:** hay un test con `ScriptedPrompt` que cubre el caso nuevo.
 
 ### 3. Manejo de Ctrl+C
 
@@ -82,8 +88,9 @@ turnos anteriores intactos.
 ### 4. Retomar la sesion anterior
 
 `Storage::latest_session_path` y `SessionState::resume` ya existen, pero nadie
-los usa fuera de `progress --sessions`. Falta que `senior learn` y
-`senior debug` ofrezcan continuar la ultima sesion.
+los usa fuera de `progress --sessions`. Falta que la sesion interactiva
+(`senior` a secas), `senior learn` y `senior debug` ofrezcan continuar la
+ultima sesion.
 
 ### 5. Estados de carga
 

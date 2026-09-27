@@ -14,6 +14,22 @@ cp .env.example .env          # opcional: solo si vas a usar un proveedor real
 Si `cargo test` no pasa en tu maquina recien clonado el repo, eso es un bug y va
 a un issue antes de cualquier otra cosa.
 
+### Si trabajas con un agente de IA
+
+Usamos Antigravity CLI (`agy`); las reglas del agente estan en
+[AGENTS.md](AGENTS.md) y el agente las lee solo. La regla es **el agente
+escribe, tu entiendes**:
+
+1. Toma un Issue y crea tu rama.
+2. Pide al agente un plan antes de que edite; apruebalo tu.
+3. Lee el diff completo; pide explicacion de lo que no entiendas.
+4. Corre las pruebas localmente (seccion 7).
+5. Escribe el PR con tus palabras: que, por que y como lo probaste.
+6. Quien revisa te puede pedir "explicame esta parte". Si no puedes, no entra.
+
+No actives la aprobacion automatica de comandos: el agente pide permiso antes de
+ejecutar cada uno.
+
 ## 2. Ramas
 
 ```text

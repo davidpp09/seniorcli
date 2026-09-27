@@ -18,9 +18,14 @@ El documento fuente es
 - [x] Elegir el caso vertical inicial (debug de Java con NullPointerException)
 - [x] Dejar DeepSeek detras de `ModelProvider`
 - [x] Integrar el primer caso de punta a punta (`tests/vertical_slice.rs`)
-- [ ] Asignar 2 personas por frente y un responsable tecnico en cada uno
+- [x] Reglas para agentes de IA en [`AGENTS.md`](../../AGENTS.md)
+- [ ] Asignar 2 personas por frente (una es la responsable tecnica); quien
+      coordina se queda con contratos e integracion
+- [ ] Invitar a los integrantes al repo con permiso Write
 - [ ] Reemplazar los marcadores de `.github/CODEOWNERS` por usuarios reales
 - [ ] Configurar la proteccion de la rama `main` (ver CONTRIBUTING, seccion 2)
+- [ ] Convertir las tareas de cada guia en Issues y ponerlas en el tablero de
+      GitHub Projects
 - [ ] Registrar los fallos del harness desde el primer dia (plantilla de issue)
 
 ## Como buscar su trabajo en el codigo
