@@ -1,6 +1,6 @@
 # Frente 2 - AI & Learning Harness
 
-**2 personas + 1 responsable tecnico.**
+**2 personas; una de ellas es la responsable tecnica del frente.**
 **Entrega principal:** una `TutorDecision` pedagogica.
 
 Controlan al LLM: que contexto recibe, que puede responder y cuanta ayuda puede

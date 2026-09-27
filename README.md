@@ -16,8 +16,8 @@ La diferencia esta en el objetivo: una respuesta tecnicamente correcta puede ser
 ## Estado
 
 Version de trabajo. El esqueleto completo esta en pie y el flujo de punta a punta
-funciona con mocks: `cargo test` corre 103 tests, incluido el *vertical slice*
-que conecta los tres frentes.
+funciona con mocks: `cargo test` corre mas de 100 tests, incluido el *vertical
+slice* que conecta los tres frentes.
 
 Lo que falta es lo que cada frente tiene que construir; esta listado en
 [`docs/frentes/`](docs/frentes/) y marcado en el codigo con `TODO(frente-N)`.
@@ -28,8 +28,9 @@ Lo que falta es lo que cada frente tiene que construir; esta listado en
 git clone <url-del-repo>
 cd seniorcli
 
-cargo test            # 103 tests, sin red ni API key
+cargo test            # sin red ni API key
 cargo run -- init     # prepara .senior/ en este proyecto
+cargo run             # sesion interactiva (escribe /ayuda dentro)
 cargo run -- debug    # analiza el error actual
 cargo run -- progress # revisa tu avance
 ```
@@ -40,6 +41,7 @@ No hace falta API key para trabajar: el proveedor por defecto es `mock`.
 
 | Comando | Que hace |
 |---|---|
+| `senior` | Sesion interactiva: analiza el proyecto una vez y conversa turno a turno. |
 | `senior init` | Crea `.senior/` con la configuracion y el perfil del alumno. |
 | `senior learn` | Sesion de aprendizaje sobre lo que estas construyendo. |
 | `senior debug` | Analiza el error actual del proyecto. |
@@ -106,11 +108,15 @@ tests/
   vertical_slice.rs  los tres frentes conectados de punta a punta
 docs/
   frentes/           que le toca a cada quien
+AGENTS.md            reglas para agentes de IA (fuente unica)
+.agents/rules/       apunta a AGENTS.md (Antigravity)
 ```
 
 ## Como trabaja el equipo
 
-Lee [CONTRIBUTING.md](CONTRIBUTING.md) antes del primer PR. Lo esencial:
+Lee [CONTRIBUTING.md](CONTRIBUTING.md) antes del primer PR. Si trabajas con un
+agente de IA (Antigravity), sus reglas estan en
+[AGENTS.md](AGENTS.md). Lo esencial:
 
 - Ramas por frente: `frente-1/...`, `frente-2/...`, `frente-3/...`
 - `main` esta protegida: se entra por PR y con el CI en verde.
@@ -131,6 +137,7 @@ Lee [CONTRIBUTING.md](CONTRIBUTING.md) antes del primer PR. Lo esencial:
 ## Documentacion
 
 - [Arquitectura](ARCHITECTURE.md) - decisiones y sus porques.
+- [AGENTS.md](AGENTS.md) - reglas para agentes de IA que trabajen en el repo.
 - [Guia de los 3 frentes (PDF)](docs/SeniorCLI_Guia_3_Frentes_Rust_Actualizada.pdf) - el documento fuente.
 - `cargo doc --open` - documentacion del codigo, modulo por modulo.
 

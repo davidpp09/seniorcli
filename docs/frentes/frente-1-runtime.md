@@ -1,6 +1,6 @@
 # Frente 1 - Runtime & Context
 
-**2 personas + 1 responsable tecnico.**
+**2 personas; una de ellas es la responsable tecnica del frente.**
 **Entrega principal:** un `ProjectContext` confiable.
 
 Hacen que SeniorCLI entienda el proyecto real antes de preguntarle al LLM.
