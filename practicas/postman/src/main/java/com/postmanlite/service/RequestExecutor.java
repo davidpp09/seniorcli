@@ -3,6 +3,7 @@ package com.postmanlite.service;
 import com.postmanlite.model.RequestSpec;
 import com.postmanlite.model.ResponseResult;
 
+import java.net.ProxySelector;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -15,6 +16,8 @@ public class RequestExecutor {
 
     private final HttpClient client = HttpClient.newBuilder()
             .followRedirects(HttpClient.Redirect.NORMAL)
+            .version(HttpClient.Version.HTTP_1_1)
+            .proxy(ProxySelector.getDefault())   // respeta el proxy del sistema (VPN/empresa/colegio)
             .connectTimeout(Duration.ofSeconds(10))
             .build();
 
@@ -54,8 +57,21 @@ public class RequestExecutor {
             Thread.currentThread().interrupt();
             return ResponseResult.failure("Request cancelado", elapsedSince(start));
         } catch (Exception e) {
-            return ResponseResult.failure(e.getClass().getSimpleName() + ": " + e.getMessage(), elapsedSince(start));
+            return ResponseResult.failure(describe(e), elapsedSince(start));
         }
+    }
+
+    /** Mensaje util: Java a veces trae message=null y la causa real esta anidada. */
+    static String describe(Throwable e) {
+        StringBuilder sb = new StringBuilder(e.getClass().getSimpleName());
+        for (Throwable t = e; t != null; t = t.getCause() == t ? null : t.getCause()) {
+            if (t.getMessage() != null && !sb.toString().contains(t.getMessage())) {
+                sb.append(": ").append(t.getMessage());
+            } else if (t != e && !sb.toString().contains(t.getClass().getSimpleName())) {
+                sb.append(" <- ").append(t.getClass().getSimpleName());
+            }
+        }
+        return sb.toString();
     }
 
     private static long elapsedSince(long startNanos) {
