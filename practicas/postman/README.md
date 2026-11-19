@@ -7,9 +7,11 @@ status, tiempo y tamano, JSON formateado, headers de respuesta e historial de re
 
 ## Uso
 
+Solo necesitas Java 17+ (JDK). Maven se descarga solo gracias al wrapper (`mvnw`).
+
 ```bash
-mvn test                       # tests del nucleo HTTP y del formateador JSON
-mvn package                    # genera target/postman-lite-1.0.0.jar
+./mvnw test                  # (en Windows: .\mvnw.cmd test)
+./mvnw package               # genera target/postman-lite-1.0.0.jar
 java -jar target/postman-lite-1.0.0.jar
 ```
 
